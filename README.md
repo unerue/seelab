@@ -31,7 +31,7 @@ seelab check --size
 
 # vision-based construction
 
-![](notebooks/outputs/fig-0001.png)
+![](img/fig-0001.png)
 
 ## `branch`로 작업해서 `branch`로 푸쉬해주세요.
 ## 절대 `master`로 직접 `push`하시면 안됩니다.
