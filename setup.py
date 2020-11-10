@@ -3,8 +3,8 @@ from setuptools import setup, find_packages
 
 setup(
     name='seelab',
-    version='1.0.0',
-    install_requires=['click'],
+    version='0.0.1',
+    install_requires=['click', 'tqdm', 'Pillow', 'labelme'],
     author='Kyungsu',
     author_email='unerue@me.com',
     description='Hi',

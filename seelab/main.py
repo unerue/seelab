@@ -1,6 +1,7 @@
 import sys
 import click
-from .dataset import _check_labels
+from .dataset import check_labels
+from .resize_image_and_polygon import check_size
 
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
@@ -8,11 +9,15 @@ CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 def cli():
     pass
 
-@click.command(help='Check labels')
+@click.command(help='Check labels and resize image and mask')
 @click.option('--labels', is_flag=True)
-def check(labels):
+@click.option('--size', is_flag=True)
+def check(labels, size):
     if labels:
-        _check_labels()
+        check_labels()
+
+    if size:
+        check_size()
 
 def main():
     cli.add_command(check)

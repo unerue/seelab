@@ -31,7 +31,7 @@ folders = [
 extract_labels = []
 removes = ['lumber', 'aerial work flatform', 'backhoe']
 
-def _check_labels():
+def check_labels():
     if os.path.split(os.getcwd())[-1] != 'Dataset':
         raise FileNotFoundError
 
@@ -118,4 +118,4 @@ def _check_labels():
     # print(f'Total processed {len(num_jsons[0]) + len(num_jsons[1])} images...')
 
 if __name__ == '__main__':
-    _check_labels()
+    check_labels()
