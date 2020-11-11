@@ -6,8 +6,25 @@ import numpy as np
 from PIL import Image
 
 
-def _mask_to_box():
+def _mask_to_box(coords, xywh: bool = True):
+    """
+    arguments:
+        coords: [[x, y],...]
+    """
+    xs, ys = [], []
+    for x, y in coords:
+        xs.append(x)
+        ys.append(y)
+
+    x_min, y_min = min(xs), min(ys)
+    x_max, y_max = max(xs), max(ys)
+
+    if xywh:
+        x_max = x_max - x_min
+        y_max = y_max - y_min
+
     raise NotImplementedError
+
 
 def get_coco_annotations(path: str, xywh: boolt = True) -> Dict:
     """
@@ -26,7 +43,6 @@ def get_labelme_annotations(path: str, xywh: bool = True) -> Dict:
     Arguments:
         path: str read only json file
         xywh: bool
-    
     Returns:
         Dict:
             boxes:
@@ -34,7 +50,7 @@ def get_labelme_annotations(path: str, xywh: bool = True) -> Dict:
     """
     with open(path) as json_file:
         shapes = json.load(json_file)
-        
+
     polygons = []
     for shape in shapes['shapes']:
         polygons.append({
