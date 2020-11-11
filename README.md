@@ -9,9 +9,13 @@
   <img alt="PythonVersion" src="https://camo.githubusercontent.com/08d69975ce61c30b175f504182ae3a335c6284cbadc26acd9b79e29db442ddea/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f707974686f6e2d332e36253230253743253230332e37253230253743253230332e382d626c7565" data-canonical-src="https://img.shields.io/badge/python-3.7%20%7C%203.8%20%7C%203.9-blue" style="max-width:100%;" />
 </p>
 
-# seelab
+---
 
-Helper `labelme`
+Helper `labelme` and `MS COCO` annotations
+
+### [Installation](https://github.com/unerue/seelab###Installation)
+### [Usage](https://github.com/unerue/seelab###Usage)
+### [Vision-based construction](https://github.com/unerue/seelab###vision-based-construction)
 
 ### Installation
 
@@ -40,7 +44,7 @@ $ seelab check --size
 ```
 
 
-# vision-based construction
+### vision-based construction
 
 ![](img/fig-0001.png)
 
