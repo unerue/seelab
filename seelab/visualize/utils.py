@@ -6,10 +6,10 @@ import numpy as np
 from PIL import Image
 
 
-def _mask_to_box(coords, xywh: bool = True):
+def _mask_to_box(coords: List, xywh: bool = True):
     """
     arguments:
-        coords: [[x, y],...]
+        coords (List): [[x, y],...]
     """
     xs, ys = [], []
     for x, y in coords:
@@ -23,7 +23,7 @@ def _mask_to_box(coords, xywh: bool = True):
         x_max = x_max - x_min
         y_max = y_max - y_min
 
-    raise NotImplementedError
+    return x_min, y_min, x_max, y_max
 
 
 def get_coco_annotations(path: str, xywh: boolt = True) -> Dict:

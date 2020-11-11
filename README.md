@@ -11,12 +11,12 @@
 
 ---
 
-**seelab** is a Python module for extract, visualize, misc for `labelme` and `MS COCO` annotations built on top of PyTorch and is distributed under the 3-Clause BSD license.
+**seelab** is a Python module for extract, visualize, misc for `labelme`, `Pascal VOC` and `MS COCO` annotations built on top of PyTorch and is distributed under the 3-Clause BSD license.
 
 ### Contents
-* #### [Installation](https://github.com/unerue/seelab#Installation)
-* #### [Usage](https://github.com/unerue/seelab#Usage)
-* #### [Vision-based construction](https://github.com/unerue/seelab#vision-based-construction)
+    * #### [Installation](https://github.com/unerue/seelab#Installation)
+    * #### [Usage](https://github.com/unerue/seelab#Usage)
+    * #### [Vision-based construction](https://github.com/unerue/seelab#vision-based-construction)
 
 ### Installation
 
