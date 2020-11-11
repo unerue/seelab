@@ -11,7 +11,7 @@
 
 ---
 
-Helper `labelme` and `MS COCO` annotations
+**seelab** is a Python module for extract, visualize, misc for `labelme` and `MS COCO` annotations built on top of PyTorch and is distributed under the 3-Clause BSD license.
 
 ### [Installation](https://github.com/unerue/seelab#Installation)
 ### [Usage](https://github.com/unerue/seelab#Usage)
