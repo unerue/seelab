@@ -2,39 +2,21 @@ import json
 from collections import defaultdict
 from typing import Tuple, List, Dict
 
+import pyximport
 import numpy as np
 from PIL import Image
 from pycocotools.coco import COCO
+from ._cython_utils import _mask_to_box
 
 
-def _mask_to_box(coords: List, xywh: bool = True):
-    """
-    arguments:
-        coords (List): [[x, y],...]
-    """
-    xs, ys = [], []
-    for x, y in coords:
-        xs.append(x)
-        ys.append(y)
-
-    x_min, y_min = min(xs), min(ys)
-    x_max, y_max = max(xs), max(ys)
-
-    if xywh:
-        x_max = x_max - x_min
-        y_max = y_max - y_min
-
-    return x_min, y_min, x_max, y_max
-
-
-def get_coco_annotations(path: str, xywh: boolt = True) -> Dict:
+def get_coco_annotations(path: str, xywh: bool = True) -> Dict:
     """
     Arguments:
     Returns:
     TODO
         pycocotools
     """
-    raise NotImplemented
+    raise NotImplementedError
 
 
 def get_labelme_annotations(path: str, xywh: bool = True) -> Dict:
@@ -49,6 +31,12 @@ def get_labelme_annotations(path: str, xywh: bool = True) -> Dict:
             boxes:
             polygons:
     """
+    # {'include_dirs': np.get_include()},
+    # pyximport.install(
+    #     setup_args={'include_dirs': [np.get_include()]},
+    #     reload_support=True, language_level='3', inplace=True)
+    # from .cython_utils import _mask_to_box
+
     with open(path) as json_file:
         shapes = json.load(json_file)
 
@@ -58,56 +46,34 @@ def get_labelme_annotations(path: str, xywh: bool = True) -> Dict:
             'group_id': shape['group_id'],
             'label': shape['label'],
             'points': shape['points']})
-            
+
     boxes = []
     polygons_by_id = defaultdict(list)
     labels_by_id = defaultdict(list)
     for shape in polygons:
         if shape['group_id'] is None:
-            xs = []
-            ys = []
-            for p in shape['points']:
-                xs.append(p[0])
-                ys.append(p[1])
-
-            x_min, y_min = min(xs), min(ys)
-            x_max, y_max = max(xs), max(ys)
-
-            if xywh:
-                x_max = x_max - x_min
-                y_max = y_max - y_min
+            box = _mask_to_box(np.array(shape['points']), xywh)
 
             boxes.append({
-                'group_id': shape['group_id'], 
-                'label': shape['label'], 
-                'points': [x_min, y_min, x_max, y_max]})
+                'group_id': shape['group_id'],
+                'label': shape['label'],
+                'points': box})
         else:
             polygons_by_id[shape['group_id']] += shape['points']
             labels_by_id[shape['group_id']] = shape['label']
-            
+
     for k, v in polygons_by_id.items():
-        xs = []
-        ys = []
-        for p in v:
-            xs.append(p[0])
-            ys.append(p[1])
-
-        x_min, y_min = min(xs), min(ys)
-        x_max, y_max = max(xs), max(ys)
-
-        if xywh:
-                x_max = x_max - x_min
-                y_max = y_max - y_min
+        box = _mask_to_box(np.array(v), xywh)
 
         boxes.append({
-            'group_id': k, 
-            'label': labels_by_id[k], 
-            'points': [x_min, y_min, x_max, y_max]})
+            'group_id': k,
+            'label': labels_by_id[k],
+            'points': box})
 
     return {'boxes': boxes, 'polygons': polygons}
 
 
-def rgb_to_rgba(rgb: Tuple, alpha float: = 0.3) -> Tuple:
+def rgb_to_rgba(rgb: Tuple, alpha: float = 0.3) -> Tuple:
     """
     Arguments:
         rgb (Tuple): (255, 255, 255)
