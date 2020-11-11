@@ -4,6 +4,7 @@ from typing import Tuple, List, Dict
 
 import numpy as np
 from PIL import Image
+from pycocotools.coco import COCO
 
 
 def _mask_to_box(coords: List, xywh: bool = True):

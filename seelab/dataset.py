@@ -14,13 +14,8 @@ from pathlib import Path
 
 
 folders = [
-    '01-Kyungsu', 
-    '02-Youngwoon', 
-    '03-Validation',
-    '06-YouTube',
-    '07-Private', 
-    '08-CCTV', 
-    '09-License']
+    '01-Kyungsu', '02-Youngwoon', '03-Validation',
+    '06-YouTube', '07-Private', '08-CCTV', '09-License']
 # extract_labels = [
 #     'person', 'hardhat', 'tower crane', 
 #     'support', 'gang form', 'safety vest',
@@ -30,6 +25,7 @@ folders = [
 # ]
 extract_labels = []
 removes = ['lumber', 'aerial work flatform', 'backhoe']
+
 
 def check_labels():
     if os.path.split(os.getcwd())[-1] != 'Dataset':
@@ -50,15 +46,15 @@ def check_labels():
     for folder in folders:
         images = glob.glob(f'{cwd}/{folder}/*.jpg')
         files = glob.glob(f'{cwd}/{folder}/*.json')
-        
+
         if len(files) < 2:
             continue
-    
+
         total_images += len(images)
         total_jsons += len(files)
         num_jsons.append(files)
         cnt = 0
-        
+
         pbar = tqdm(total=len(files), desc=f'{folder:>17}', ascii=' ->=', bar_format=bar_format)
         for i, file in enumerate(files):
             labels_by_json = defaultdict(int)
@@ -68,11 +64,11 @@ def check_labels():
                 image_file = os.path.basename(file)[:-5] + '.jpg'
                 if data['imagePath'] != os.path.basename(file)[:-5] + '.jpg':
                     error_path_files.append(file)
-                
+
                 image = Image.open(f'{folder}/{image_file}')
                 if image.mode != 'RGB':
                     error_color_files.append((image.mode, image_file))
-                    
+
                 for line in data['shapes']:
                     if line['label'] not in extract_labels:
                         labels.append(line['label'])
@@ -88,7 +84,7 @@ def check_labels():
             pbar.update()
         pbar.close()
         num_labels.append(cnt)
-        
+
     if len(error_path_files) > 0:
         print('Error!!!')
         print(error_path_files)
