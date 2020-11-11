@@ -19,13 +19,13 @@ pip install git+https://github.com/unerue/seelab.git#egg=seelab
 `labelme` annotations
 
 ```bash
-seelab check --labels
+$ seelab check --labels
 ```
 
 `labelme`
 
 ```bash
-seelab check --size
+$ seelab check --size
 ```
 
 
