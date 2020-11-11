@@ -13,9 +13,9 @@
 
 Helper `labelme` and `MS COCO` annotations
 
-### [Installation](https://github.com/unerue/seelab###Installation)
-### [Usage](https://github.com/unerue/seelab###Usage)
-### [Vision-based construction](https://github.com/unerue/seelab###vision-based-construction)
+### [Installation](https://github.com/unerue/seelab#Installation)
+### [Usage](https://github.com/unerue/seelab#Usage)
+### [Vision-based construction](https://github.com/unerue/seelab#vision-based-construction)
 
 ### Installation
 
