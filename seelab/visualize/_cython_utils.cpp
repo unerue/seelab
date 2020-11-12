@@ -10,6 +10,7 @@
         "include_dirs": [
             "C:\\Users\\ryu\\anaconda3\\envs\\test\\lib\\site-packages\\numpy\\core\\include"
         ],
+        "language": "c++",
         "name": "seelab.visualize._cython_utils",
         "sources": [
             "seelab\\visualize\\_cython_utils.pyx"
@@ -303,19 +304,33 @@ END: Cython Metadata */
   #endif
 #endif
 
+#ifndef __cplusplus
+  #error "Cython files generated with the C++ option must be compiled with a C++ compiler."
+#endif
 #ifndef CYTHON_INLINE
   #if defined(__clang__)
     #define CYTHON_INLINE __inline__ __attribute__ ((__unused__))
-  #elif defined(__GNUC__)
-    #define CYTHON_INLINE __inline__
-  #elif defined(_MSC_VER)
-    #define CYTHON_INLINE __inline
-  #elif defined (__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
-    #define CYTHON_INLINE inline
   #else
-    #define CYTHON_INLINE
+    #define CYTHON_INLINE inline
   #endif
 #endif
+template<typename T>
+void __Pyx_call_destructor(T& x) {
+    x.~T();
+}
+template<typename T>
+class __Pyx_FakeReference {
+  public:
+    __Pyx_FakeReference() : ptr(NULL) { }
+    __Pyx_FakeReference(const T& ref) : ptr(const_cast<T*>(&ref)) { }
+    T *operator->() { return ptr; }
+    T *operator&() { return ptr; }
+    operator T&() { return *ptr; }
+    template<typename U> bool operator ==(U other) { return *ptr == other; }
+    template<typename U> bool operator !=(U other) { return *ptr != other; }
+  private:
+    T *ptr;
+};
 
 #if CYTHON_COMPILING_IN_PYPY && PY_VERSION_HEX < 0x02070600 && !defined(Py_OptimizeFlag)
   #define Py_OptimizeFlag 0
@@ -1687,7 +1702,7 @@ static const char __pyx_k_y_min[] = "y_min";
 static const char __pyx_k_coords[] = "coords";
 static const char __pyx_k_import[] = "__import__";
 static const char __pyx_k_ImportError[] = "ImportError";
-static const char __pyx_k_mask_to_box[] = "_mask_to_box";
+static const char __pyx_k_mask_to_box[] = "mask_to_box";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_seelab_visualize__cython_utils[] = "seelab.visualize._cython_utils";
 static const char __pyx_k_numpy_core_multiarray_failed_to[] = "numpy.core.multiarray failed to import";
@@ -1716,7 +1731,7 @@ static PyObject *__pyx_n_s_xywh;
 static PyObject *__pyx_n_s_y_max;
 static PyObject *__pyx_n_s_y_min;
 static PyObject *__pyx_n_s_ys;
-static PyObject *__pyx_pf_6seelab_9visualize_13_cython_utils__mask_to_box(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_coords, PyObject *__pyx_v_xywh); /* proto */
+static PyObject *__pyx_pf_6seelab_9visualize_13_cython_utils_mask_to_box(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_coords, PyObject *__pyx_v_xywh); /* proto */
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_1;
 static PyObject *__pyx_slice_;
@@ -1728,19 +1743,19 @@ static PyObject *__pyx_tuple__6;
 static PyObject *__pyx_codeobj__7;
 /* Late includes */
 
-/* "seelab/visualize/_cython_utils.pyx":9
+/* "seelab/visualize/_cython_utils.pyx":8
  * 
  * 
- * def _mask_to_box(np.ndarray[dtype=np.float64_t, ndim=2] coords, xywh=True):             # <<<<<<<<<<<<<<
+ * def mask_to_box(np.ndarray[dtype=np.float64_t, ndim=2] coords, xywh=True):             # <<<<<<<<<<<<<<
  *     """
  *     return:
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6seelab_9visualize_13_cython_utils_1_mask_to_box(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6seelab_9visualize_13_cython_utils__mask_to_box[] = "\n    return:\n        bouding box (List): \n    ";
-static PyMethodDef __pyx_mdef_6seelab_9visualize_13_cython_utils_1_mask_to_box = {"_mask_to_box", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6seelab_9visualize_13_cython_utils_1_mask_to_box, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6seelab_9visualize_13_cython_utils__mask_to_box};
-static PyObject *__pyx_pw_6seelab_9visualize_13_cython_utils_1_mask_to_box(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_6seelab_9visualize_13_cython_utils_1mask_to_box(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6seelab_9visualize_13_cython_utils_mask_to_box[] = "\n    return:\n        bouding box (List): \n    ";
+static PyMethodDef __pyx_mdef_6seelab_9visualize_13_cython_utils_1mask_to_box = {"mask_to_box", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6seelab_9visualize_13_cython_utils_1mask_to_box, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6seelab_9visualize_13_cython_utils_mask_to_box};
+static PyObject *__pyx_pw_6seelab_9visualize_13_cython_utils_1mask_to_box(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyArrayObject *__pyx_v_coords = 0;
   PyObject *__pyx_v_xywh = 0;
   int __pyx_lineno = 0;
@@ -1748,7 +1763,7 @@ static PyObject *__pyx_pw_6seelab_9visualize_13_cython_utils_1_mask_to_box(PyObj
   int __pyx_clineno = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("_mask_to_box (wrapper)", 0);
+  __Pyx_RefNannySetupContext("mask_to_box (wrapper)", 0);
   {
     static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_coords,&__pyx_n_s_xywh,0};
     PyObject* values[2] = {0,0};
@@ -1777,7 +1792,7 @@ static PyObject *__pyx_pw_6seelab_9visualize_13_cython_utils_1_mask_to_box(PyObj
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_mask_to_box") < 0)) __PYX_ERR(0, 9, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "mask_to_box") < 0)) __PYX_ERR(0, 8, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -1793,14 +1808,14 @@ static PyObject *__pyx_pw_6seelab_9visualize_13_cython_utils_1_mask_to_box(PyObj
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("_mask_to_box", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 9, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("mask_to_box", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 8, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("seelab.visualize._cython_utils._mask_to_box", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("seelab.visualize._cython_utils.mask_to_box", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_coords), __pyx_ptype_5numpy_ndarray, 1, "coords", 0))) __PYX_ERR(0, 9, __pyx_L1_error)
-  __pyx_r = __pyx_pf_6seelab_9visualize_13_cython_utils__mask_to_box(__pyx_self, __pyx_v_coords, __pyx_v_xywh);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_coords), __pyx_ptype_5numpy_ndarray, 1, "coords", 0))) __PYX_ERR(0, 8, __pyx_L1_error)
+  __pyx_r = __pyx_pf_6seelab_9visualize_13_cython_utils_mask_to_box(__pyx_self, __pyx_v_coords, __pyx_v_xywh);
 
   /* function exit code */
   goto __pyx_L0;
@@ -1811,7 +1826,7 @@ static PyObject *__pyx_pw_6seelab_9visualize_13_cython_utils_1_mask_to_box(PyObj
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6seelab_9visualize_13_cython_utils__mask_to_box(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_coords, PyObject *__pyx_v_xywh) {
+static PyObject *__pyx_pf_6seelab_9visualize_13_cython_utils_mask_to_box(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_coords, PyObject *__pyx_v_xywh) {
   PyArrayObject *__pyx_v_xs = 0;
   PyArrayObject *__pyx_v_ys = 0;
   __pyx_t_5numpy_float64_t __pyx_v_x_min;
@@ -1838,7 +1853,7 @@ static PyObject *__pyx_pf_6seelab_9visualize_13_cython_utils__mask_to_box(CYTHON
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("_mask_to_box", 0);
+  __Pyx_RefNannySetupContext("mask_to_box", 0);
   __pyx_pybuffer_xs.pybuffer.buf = NULL;
   __pyx_pybuffer_xs.refcount = 0;
   __pyx_pybuffernd_xs.data = NULL;
@@ -1853,26 +1868,26 @@ static PyObject *__pyx_pf_6seelab_9visualize_13_cython_utils__mask_to_box(CYTHON
   __pyx_pybuffernd_coords.rcbuffer = &__pyx_pybuffer_coords;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_coords.rcbuffer->pybuffer, (PyObject*)__pyx_v_coords, &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES, 2, 0, __pyx_stack) == -1)) __PYX_ERR(0, 9, __pyx_L1_error)
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_coords.rcbuffer->pybuffer, (PyObject*)__pyx_v_coords, &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES, 2, 0, __pyx_stack) == -1)) __PYX_ERR(0, 8, __pyx_L1_error)
   }
   __pyx_pybuffernd_coords.diminfo[0].strides = __pyx_pybuffernd_coords.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_coords.diminfo[0].shape = __pyx_pybuffernd_coords.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_coords.diminfo[1].strides = __pyx_pybuffernd_coords.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_coords.diminfo[1].shape = __pyx_pybuffernd_coords.rcbuffer->pybuffer.shape[1];
 
-  /* "seelab/visualize/_cython_utils.pyx":14
+  /* "seelab/visualize/_cython_utils.pyx":13
  *         bouding box (List):
  *     """
  *     cdef np.ndarray[dtype=np.float64_t, ndim=1] xs = coords[:, 0]             # <<<<<<<<<<<<<<
  *     cdef np.ndarray[dtype=np.float64_t, ndim=1] ys = coords[:, 1]
  *     cdef np.float64_t x_min, y_min, x_max, y_max
  */
-  __pyx_t_1 = __Pyx_PyObject_GetItem(((PyObject *)__pyx_v_coords), __pyx_tuple__2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 14, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetItem(((PyObject *)__pyx_v_coords), __pyx_tuple__2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 14, __pyx_L1_error)
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 13, __pyx_L1_error)
   __pyx_t_2 = ((PyArrayObject *)__pyx_t_1);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_xs.rcbuffer->pybuffer, (PyObject*)__pyx_t_2, &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {
       __pyx_v_xs = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_xs.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 14, __pyx_L1_error)
+      __PYX_ERR(0, 13, __pyx_L1_error)
     } else {__pyx_pybuffernd_xs.diminfo[0].strides = __pyx_pybuffernd_xs.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_xs.diminfo[0].shape = __pyx_pybuffernd_xs.rcbuffer->pybuffer.shape[0];
     }
   }
@@ -1880,22 +1895,22 @@ static PyObject *__pyx_pf_6seelab_9visualize_13_cython_utils__mask_to_box(CYTHON
   __pyx_v_xs = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "seelab/visualize/_cython_utils.pyx":15
+  /* "seelab/visualize/_cython_utils.pyx":14
  *     """
  *     cdef np.ndarray[dtype=np.float64_t, ndim=1] xs = coords[:, 0]
  *     cdef np.ndarray[dtype=np.float64_t, ndim=1] ys = coords[:, 1]             # <<<<<<<<<<<<<<
  *     cdef np.float64_t x_min, y_min, x_max, y_max
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetItem(((PyObject *)__pyx_v_coords), __pyx_tuple__3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetItem(((PyObject *)__pyx_v_coords), __pyx_tuple__3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 15, __pyx_L1_error)
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 14, __pyx_L1_error)
   __pyx_t_3 = ((PyArrayObject *)__pyx_t_1);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_ys.rcbuffer->pybuffer, (PyObject*)__pyx_t_3, &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {
       __pyx_v_ys = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_ys.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 15, __pyx_L1_error)
+      __PYX_ERR(0, 14, __pyx_L1_error)
     } else {__pyx_pybuffernd_ys.diminfo[0].strides = __pyx_pybuffernd_ys.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_ys.diminfo[0].shape = __pyx_pybuffernd_ys.rcbuffer->pybuffer.shape[0];
     }
   }
@@ -1903,69 +1918,69 @@ static PyObject *__pyx_pf_6seelab_9visualize_13_cython_utils__mask_to_box(CYTHON
   __pyx_v_ys = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "seelab/visualize/_cython_utils.pyx":18
+  /* "seelab/visualize/_cython_utils.pyx":17
  *     cdef np.float64_t x_min, y_min, x_max, y_max
  * 
  *     x_min = min(xs)             # <<<<<<<<<<<<<<
  *     y_min = min(ys)
  *     x_max = max(xs)
  */
-  __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_min, ((PyObject *)__pyx_v_xs)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 18, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_min, ((PyObject *)__pyx_v_xs)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 17, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_4 == ((npy_float64)-1)) && PyErr_Occurred())) __PYX_ERR(0, 18, __pyx_L1_error)
+  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_4 == ((npy_float64)-1)) && PyErr_Occurred())) __PYX_ERR(0, 17, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_x_min = __pyx_t_4;
 
-  /* "seelab/visualize/_cython_utils.pyx":19
+  /* "seelab/visualize/_cython_utils.pyx":18
  * 
  *     x_min = min(xs)
  *     y_min = min(ys)             # <<<<<<<<<<<<<<
  *     x_max = max(xs)
  *     y_max = max(ys)
  */
-  __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_min, ((PyObject *)__pyx_v_ys)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_min, ((PyObject *)__pyx_v_ys)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 18, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_4 == ((npy_float64)-1)) && PyErr_Occurred())) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_4 == ((npy_float64)-1)) && PyErr_Occurred())) __PYX_ERR(0, 18, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_y_min = __pyx_t_4;
 
-  /* "seelab/visualize/_cython_utils.pyx":20
+  /* "seelab/visualize/_cython_utils.pyx":19
  *     x_min = min(xs)
  *     y_min = min(ys)
  *     x_max = max(xs)             # <<<<<<<<<<<<<<
  *     y_max = max(ys)
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_max, ((PyObject *)__pyx_v_xs)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 20, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_max, ((PyObject *)__pyx_v_xs)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_4 == ((npy_float64)-1)) && PyErr_Occurred())) __PYX_ERR(0, 20, __pyx_L1_error)
+  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_4 == ((npy_float64)-1)) && PyErr_Occurred())) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_x_max = __pyx_t_4;
 
-  /* "seelab/visualize/_cython_utils.pyx":21
+  /* "seelab/visualize/_cython_utils.pyx":20
  *     y_min = min(ys)
  *     x_max = max(xs)
  *     y_max = max(ys)             # <<<<<<<<<<<<<<
  * 
  *     if xywh:
  */
-  __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_max, ((PyObject *)__pyx_v_ys)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 21, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_max, ((PyObject *)__pyx_v_ys)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 20, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_4 == ((npy_float64)-1)) && PyErr_Occurred())) __PYX_ERR(0, 21, __pyx_L1_error)
+  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_4 == ((npy_float64)-1)) && PyErr_Occurred())) __PYX_ERR(0, 20, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_y_max = __pyx_t_4;
 
-  /* "seelab/visualize/_cython_utils.pyx":23
+  /* "seelab/visualize/_cython_utils.pyx":22
  *     y_max = max(ys)
  * 
  *     if xywh:             # <<<<<<<<<<<<<<
  *         x_max = x_max - x_min
  *         y_max = y_max - y_min
  */
-  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_v_xywh); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 23, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_v_xywh); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 22, __pyx_L1_error)
   if (__pyx_t_5) {
 
-    /* "seelab/visualize/_cython_utils.pyx":24
+    /* "seelab/visualize/_cython_utils.pyx":23
  * 
  *     if xywh:
  *         x_max = x_max - x_min             # <<<<<<<<<<<<<<
@@ -1974,7 +1989,7 @@ static PyObject *__pyx_pf_6seelab_9visualize_13_cython_utils__mask_to_box(CYTHON
  */
     __pyx_v_x_max = (__pyx_v_x_max - __pyx_v_x_min);
 
-    /* "seelab/visualize/_cython_utils.pyx":25
+    /* "seelab/visualize/_cython_utils.pyx":24
  *     if xywh:
  *         x_max = x_max - x_min
  *         y_max = y_max - y_min             # <<<<<<<<<<<<<<
@@ -1983,7 +1998,7 @@ static PyObject *__pyx_pf_6seelab_9visualize_13_cython_utils__mask_to_box(CYTHON
  */
     __pyx_v_y_max = (__pyx_v_y_max - __pyx_v_y_min);
 
-    /* "seelab/visualize/_cython_utils.pyx":23
+    /* "seelab/visualize/_cython_utils.pyx":22
  *     y_max = max(ys)
  * 
  *     if xywh:             # <<<<<<<<<<<<<<
@@ -1992,21 +2007,21 @@ static PyObject *__pyx_pf_6seelab_9visualize_13_cython_utils__mask_to_box(CYTHON
  */
   }
 
-  /* "seelab/visualize/_cython_utils.pyx":27
+  /* "seelab/visualize/_cython_utils.pyx":26
  *         y_max = y_max - y_min
  * 
  *     return [x_min, y_min, x_max, y_max]             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_x_min); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_x_min); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_6 = PyFloat_FromDouble(__pyx_v_y_min); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __pyx_t_6 = PyFloat_FromDouble(__pyx_v_y_min); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_7 = PyFloat_FromDouble(__pyx_v_x_max); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __pyx_t_7 = PyFloat_FromDouble(__pyx_v_x_max); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_8 = PyFloat_FromDouble(__pyx_v_y_max); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __pyx_t_8 = PyFloat_FromDouble(__pyx_v_y_max); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_9 = PyList_New(4); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __pyx_t_9 = PyList_New(4); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   __Pyx_GIVEREF(__pyx_t_1);
   PyList_SET_ITEM(__pyx_t_9, 0, __pyx_t_1);
@@ -2024,10 +2039,10 @@ static PyObject *__pyx_pf_6seelab_9visualize_13_cython_utils__mask_to_box(CYTHON
   __pyx_t_9 = 0;
   goto __pyx_L0;
 
-  /* "seelab/visualize/_cython_utils.pyx":9
+  /* "seelab/visualize/_cython_utils.pyx":8
  * 
  * 
- * def _mask_to_box(np.ndarray[dtype=np.float64_t, ndim=2] coords, xywh=True):             # <<<<<<<<<<<<<<
+ * def mask_to_box(np.ndarray[dtype=np.float64_t, ndim=2] coords, xywh=True):             # <<<<<<<<<<<<<<
  *     """
  *     return:
  */
@@ -2047,7 +2062,7 @@ static PyObject *__pyx_pf_6seelab_9visualize_13_cython_utils__mask_to_box(CYTHON
     __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_xs.rcbuffer->pybuffer);
     __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_ys.rcbuffer->pybuffer);
   __Pyx_ErrRestore(__pyx_type, __pyx_value, __pyx_tb);}
-  __Pyx_AddTraceback("seelab.visualize._cython_utils._mask_to_box", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("seelab.visualize._cython_utils.mask_to_box", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   goto __pyx_L2;
   __pyx_L0:;
@@ -2977,8 +2992,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_min = __Pyx_GetBuiltinName(__pyx_n_s_min); if (!__pyx_builtin_min) __PYX_ERR(0, 18, __pyx_L1_error)
-  __pyx_builtin_max = __Pyx_GetBuiltinName(__pyx_n_s_max); if (!__pyx_builtin_max) __PYX_ERR(0, 20, __pyx_L1_error)
+  __pyx_builtin_min = __Pyx_GetBuiltinName(__pyx_n_s_min); if (!__pyx_builtin_min) __PYX_ERR(0, 17, __pyx_L1_error)
+  __pyx_builtin_max = __Pyx_GetBuiltinName(__pyx_n_s_max); if (!__pyx_builtin_max) __PYX_ERR(0, 19, __pyx_L1_error)
   __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(1, 884, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
@@ -2989,28 +3004,28 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "seelab/visualize/_cython_utils.pyx":14
+  /* "seelab/visualize/_cython_utils.pyx":13
  *         bouding box (List):
  *     """
  *     cdef np.ndarray[dtype=np.float64_t, ndim=1] xs = coords[:, 0]             # <<<<<<<<<<<<<<
  *     cdef np.ndarray[dtype=np.float64_t, ndim=1] ys = coords[:, 1]
  *     cdef np.float64_t x_min, y_min, x_max, y_max
  */
-  __pyx_slice_ = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice_)) __PYX_ERR(0, 14, __pyx_L1_error)
+  __pyx_slice_ = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice_)) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice_);
   __Pyx_GIVEREF(__pyx_slice_);
-  __pyx_tuple__2 = PyTuple_Pack(2, __pyx_slice_, __pyx_int_0); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 14, __pyx_L1_error)
+  __pyx_tuple__2 = PyTuple_Pack(2, __pyx_slice_, __pyx_int_0); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
 
-  /* "seelab/visualize/_cython_utils.pyx":15
+  /* "seelab/visualize/_cython_utils.pyx":14
  *     """
  *     cdef np.ndarray[dtype=np.float64_t, ndim=1] xs = coords[:, 0]
  *     cdef np.ndarray[dtype=np.float64_t, ndim=1] ys = coords[:, 1]             # <<<<<<<<<<<<<<
  *     cdef np.float64_t x_min, y_min, x_max, y_max
  * 
  */
-  __pyx_tuple__3 = PyTuple_Pack(2, __pyx_slice_, __pyx_int_1); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 15, __pyx_L1_error)
+  __pyx_tuple__3 = PyTuple_Pack(2, __pyx_slice_, __pyx_int_1); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
 
@@ -3036,17 +3051,17 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
 
-  /* "seelab/visualize/_cython_utils.pyx":9
+  /* "seelab/visualize/_cython_utils.pyx":8
  * 
  * 
- * def _mask_to_box(np.ndarray[dtype=np.float64_t, ndim=2] coords, xywh=True):             # <<<<<<<<<<<<<<
+ * def mask_to_box(np.ndarray[dtype=np.float64_t, ndim=2] coords, xywh=True):             # <<<<<<<<<<<<<<
  *     """
  *     return:
  */
-  __pyx_tuple__6 = PyTuple_Pack(8, __pyx_n_s_coords, __pyx_n_s_xywh, __pyx_n_s_xs, __pyx_n_s_ys, __pyx_n_s_x_min, __pyx_n_s_y_min, __pyx_n_s_x_max, __pyx_n_s_y_max); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __pyx_tuple__6 = PyTuple_Pack(8, __pyx_n_s_coords, __pyx_n_s_xywh, __pyx_n_s_xs, __pyx_n_s_ys, __pyx_n_s_x_min, __pyx_n_s_y_min, __pyx_n_s_x_max, __pyx_n_s_y_max); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__6);
   __Pyx_GIVEREF(__pyx_tuple__6);
-  __pyx_codeobj__7 = (PyObject*)__Pyx_PyCode_New(2, 0, 8, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__6, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_seelab_visualize__cython_utils_p, __pyx_n_s_mask_to_box, 9, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__7)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __pyx_codeobj__7 = (PyObject*)__Pyx_PyCode_New(2, 0, 8, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__6, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_seelab_visualize__cython_utils_p, __pyx_n_s_mask_to_box, 8, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__7)) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -3361,28 +3376,28 @@ if (!__Pyx_RefNanny) {
   if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
 
-  /* "seelab/visualize/_cython_utils.pyx":5
- * cimport cython
+  /* "seelab/visualize/_cython_utils.pyx":4
+ * # cimport numpy as np
  * cimport cython
  * import numpy as np             # <<<<<<<<<<<<<<
  * cimport numpy as np
  * 
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_numpy, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_numpy, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) __PYX_ERR(0, 5, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "seelab/visualize/_cython_utils.pyx":9
+  /* "seelab/visualize/_cython_utils.pyx":8
  * 
  * 
- * def _mask_to_box(np.ndarray[dtype=np.float64_t, ndim=2] coords, xywh=True):             # <<<<<<<<<<<<<<
+ * def mask_to_box(np.ndarray[dtype=np.float64_t, ndim=2] coords, xywh=True):             # <<<<<<<<<<<<<<
  *     """
  *     return:
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6seelab_9visualize_13_cython_utils_1_mask_to_box, NULL, __pyx_n_s_seelab_visualize__cython_utils); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6seelab_9visualize_13_cython_utils_1mask_to_box, NULL, __pyx_n_s_seelab_visualize__cython_utils); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_mask_to_box, __pyx_t_1) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_mask_to_box, __pyx_t_1) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "seelab/visualize/_cython_utils.pyx":1

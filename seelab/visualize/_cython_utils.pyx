@@ -1,12 +1,11 @@
 # from libcpp.vector cimport vector
 # cimport numpy as np
 cimport cython
-cimport cython
 import numpy as np
 cimport numpy as np
 
 
-def _mask_to_box(np.ndarray[dtype=np.float64_t, ndim=2] coords, xywh=True):
+def mask_to_box(np.ndarray[dtype=np.float64_t, ndim=2] coords, xywh=True):
     """
     return:
         bouding box (List): 
