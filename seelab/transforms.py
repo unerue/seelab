@@ -41,4 +41,3 @@ class HorizontalFlip:
         boxes = boxes.copy()
         
         return image, boxes, masks, labels
-
