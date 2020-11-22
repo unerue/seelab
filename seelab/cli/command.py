@@ -1,6 +1,7 @@
 import click
 from .dataset import check_labels
 from .resize_image_and_polygon import check_size
+from ..visualize.visualizer import visualize_coco
 
 
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
@@ -21,9 +22,17 @@ def check(labels, size):
     if size:
         check_size()
 
+@click.command(help='Visualizer')
+@click.argument('image_dir', required=True, type=str)
+@click.argument('info_path', required=True, type=str)
+@click.option('--num_images', default=6, type=int, help='Number of images')
+def visualize(image_dir, info_path, num_images):
+    visualize_coco(image_dir, info_path, num_images)
+
 
 def main():
     cli.add_command(check)
+    cli.add_command(visualize)
     cli()
 
 

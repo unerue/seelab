@@ -55,7 +55,7 @@ def setup_packages():
     metadata = dict(
         name='seelab',
         version='0.0.1',
-        install_requires=['click', 'tqdm', 'Pillow', 'numpy'],
+        install_requires=['Cython', 'click', 'tqdm', 'Pillow', 'numpy'],
         author='Kyungsu',
         author_email='unerue@me.com',
         maintainer='Kyungsu',

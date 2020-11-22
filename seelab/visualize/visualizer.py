@@ -16,31 +16,6 @@ from matplotlib.collections import PatchCollection
 
 import pycocotools
 from pycocotools import mask
-# from skimage import measure
-
-# from config import rgb2rgba, CONSTRUCTION_CLASSES, CONSTRUCTION_COLORS_MAP, COLORS, COCO_CLASSES, COCO_LABEL_MAP
-
-# - arg_parse(인풋 = custom, coco, box, polygon, score_parameter, Num_images)
-# - bbox_custom_0.png, bbox_custom_0_15.png, poly_custom_0.png, poly_custom_0_15.png
-# - bbox_coco_0.png, bbox_coco_0_15.png, poly_coco_0.png, poly_coco_0_15.png 등등
-
-parser = argparse.ArgumentParser(description='Visualization')
-parser.add_argument(
-    '--image_dir', required=True)
-parser.add_argument(
-    '--info_path', required=True)
-parser.add_argument(
-    '--annot_type', required=False, default='both', help='bbox, mask, both', type = str)
-parser.add_argument(
-    '--num_images', required=False, default=6, help='number of images to be displayed', type=int)
-
-args = parser.parse_args()
-if args.num_images > 9:
-    raise ValueError
-
-with open(args.info_path, 'r') as json_file:
-    annots = json.load(json_file)
-    classes = {v['id']: v['name'] for v in annots['categories']}
 
 
 def color_cache(func):
@@ -63,26 +38,12 @@ def get_label_color_map(category_id):
     return label, colors
 
 
-    #     # color = CONSTRUCTION_COLORS_MAP.get(label)
-    # else:
-    #     coco_colors_map = {}
-    #     i = 0
-    #     for label in COCO_LABEL_MAP.keys():
-    #         coco_colors_map[label] = rgb2rgba(COLORS[i], 0.2)
-    #         i += 1
-    #         if i >= len(COLORS):
-    #             i = 0
-    #     label = COCO_CLASSES[COCO_LABEL_MAP.get(data['category_id'], 0)]
-    #     color = coco_colors_map.get(COCO_LABEL_MAP.get(data['category_id'], ((0.96, 0.26, 0.21, 0.2), (0.96, 0.26, 0.21, 1.0))))
-
-    # return label, color
-
-
 def draw_ground_truth(image_id=None, ax=None, annot_type='bbox'):
     for data in annots['annotations']:
         if data['image_id'] == image_id:
             if annot_type == 'bbox':
                 draw_bbox(ax, data)
+
 
 def draw_bbox(ax, data):
     label, color = get_label_color_map(data['category_id'])
@@ -97,8 +58,14 @@ def draw_bbox(ax, data):
         bbox=dict(facecolor=color[1], edgecolor=color[1], pad=0.0))
 
 
-def main():
-    # Get image ID, and file names from ground truth data
+def visualize_coco(image_dir, info_path, num_images):
+    if num_images > 9:
+        raise ValueError
+
+    with open(info_path, 'r') as json_file:
+        annots = json.load(json_file)
+    
+    classes = {v['id']: v['name'] for v in annots['categories']}
     images = {annot['id']: annot['file_name'] for annot in annots['images']}
     
     shuffle = True
@@ -110,11 +77,11 @@ def main():
 
     # fig, axes = plt.subplots(2, 2, dpi=50)
     # print(math.gcd(10, 4))
-    sizes = [i for i in range(1, args.num_images+1) if args.num_images % i == 0]
+    sizes = [i for i in range(1, num_images+1) if num_images % i == 0]
     figsize = []
     for i in range(len(sizes), 0, -1):
         for j in range(i, len(sizes)):
-            if sizes[i] * sizes[j] == args.num_images:
+            if sizes[i] * sizes[j] == num_images:
                 figsize.append((sizes[i], sizes[j]))
             if len(figsize) > 1:
                 break
@@ -122,29 +89,17 @@ def main():
     try:
         row, col = figsize[0]
     except IndexError:
-        row, col = 1, args.num_images
-    # if args.num_images < 4:
-    #     row, col = 1, args.num_images
-    # else:
-    #     row, col = figsize[0]
-    # row, col = size[1:3]
-    print(figsize, row, col)
-    # print(int(num), int(num))
-
-    # fig, axes = plt.subplots(2, 4, dpi=50)
+        row, col = 1, num_images
+    
     fig = plt.figure(dpi=200)
     dpi = fig.get_dpi()
    
-    # scale = .2
-    # i = 1
-    
     for i, (image_id, file_name) in enumerate(images.items()):
-        image = Image.open(f'{args.image_dir}/{os.path.basename(file_name)}').convert('RGB')
+        image = Image.open(f'{image_dir}/{os.path.basename(file_name)}').convert('RGB')
         w, h = image.size
         if i == 0:
             fig.set_size_inches(
-                w*col / dpi, 
-                h*row / dpi)
+                w*col / dpi, h*row / dpi)
         
         ax = fig.add_subplot(int(f'{row}{col}{i+1}'))
         ax.imshow(image)
@@ -159,24 +114,17 @@ def main():
         # draw_ground_truth(image_id=image_id, ax=axes.flatten()[i], annot_type='bbox')
         # axes.flatten()[i].axis('off')
         # axes.flatten()[i].axis('off')
-        
-
-        if i+1 == args.num_images:
+    
+        if i+1 == num_images:
             break
 
-        # if i == (num_imgs * 2 - 1): # 39
-        #     break
-
-        
     
     fig.tight_layout()
-    # plt.show()
     fig.savefig('test.png')
-    # if args.pop_up_img:
-    #     plt.show()
 
-if __name__ == '__main__':
-    main()
+
+# if __name__ == '__main__':
+#     visualize_coco(image_dir=None, )
 
 
 
