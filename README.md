@@ -49,6 +49,3 @@ $ seelab check --size
 ### vision-based construction
 
 ![](img/fig-0001.png)
-
-[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=unerue&layout=compact)](https://github.com/unerue/seelab)
-
