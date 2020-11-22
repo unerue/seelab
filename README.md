@@ -24,27 +24,35 @@
 #### Requirements
 
 ```bash
+git clone https://github.com/unerue/seelab.git
+conda env create -f environment.yml
+python setup.py install
+```
+
+```bash
 conda create -n seelab python=3.7
-conda activate labelme
-pip install labelme
+conda activate seelab
+pip install -r requirements.txt
 pip install git+https://github.com/unerue/seelab.git#egg=seelab
 ```
 
 ### Usage
 #### Check labels in dataset
 
-`labelme` annotations
+`check` annotations
 
 ```bash
 $ seelab check --labels
 ```
-
-`labelme`
-
 ```bash
 $ seelab check --size
 ```
 
+`visualize` coco format
+
+```zsh
+$ seelab visualize image_dir/ annotations.json --num_images=6
+```
 
 ### vision-based construction
 
