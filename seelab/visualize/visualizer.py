@@ -18,6 +18,25 @@ import pycocotools
 from pycocotools import mask
 
 
+class Visualizer:
+    def __init__(self, image_dir: str, info_path: str, num_images: int, annot_type: str):
+        self.image_dir = image_dir
+        self.info_path = info_path
+        self.num_images = num_images
+        self.annot_type = annot_type.split(',')
+
+        with open(self.info_path, 'r') as json_file:
+            self.annots = json.load(json_file)
+
+        self.classes = {v['id']: v['name'] for v in self.annots['categories']}
+        raise NotImplementedError
+
+    def get_label_and_color(self, alpha=1.0):
+        label = self.classes
+        return NotImplementedError
+        
+
+
 def color_cache(func):
     cached_colors = defaultdict()
     def wrapping_function(*args):
@@ -29,7 +48,7 @@ def color_cache(func):
 
 
 @color_cache
-def get_label_color_map(category_id):
+def get_label_color_map(category_id, classes):
     label = classes[category_id]
     color = tuple(round(random.random(), 3) for _ in range(3))
     mask = color + (.5,)
@@ -38,16 +57,16 @@ def get_label_color_map(category_id):
     return label, colors
 
 
-def draw_ground_truth(image_id=None, ax=None, annot_type='bbox'):
-    for data in annots['annotations']:
-        if data['image_id'] == image_id:
+def draw_ground_truth(annots, image_id=None, ax=None, annot_type='bbox', classes=None):
+    for annot in annots['annotations']:
+        if annot['image_id'] == image_id:
             if annot_type == 'bbox':
-                draw_bbox(ax, data)
+                draw_bbox(ax, annot, classes)
 
 
-def draw_bbox(ax, data):
-    label, color = get_label_color_map(data['category_id'])
-    box = data['bbox']
+def draw_bbox(ax, annot, classes):
+    label, color = get_label_color_map(annot['category_id'], classes)
+    box = annot['bbox']
     # if color is None:
     # color = ((0.96, 0.26, 0.21, 0.2), (0.96, 0.26, 0.21, 1.0))
     ractangle = Rectangle((box[0], box[1]), box[2], box[3], fill=None, ec=color[1])
@@ -106,7 +125,7 @@ def visualize_coco(image_dir, info_path, num_images):
         ax.set_title(f'{image_id}({os.path.basename(file_name)})', fontsize=int(w*col/dpi))
         ax.axis('off')
 
-        draw_ground_truth(image_id=image_id, ax=ax, annot_type='bbox')
+        draw_ground_truth(annots, image_id=image_id, ax=ax, annot_type='bbox', classes=classes)
         # axes.flatten()[i].imshow(image)
         # axes.flatten()[i].imshow(image)
         
@@ -120,7 +139,9 @@ def visualize_coco(image_dir, info_path, num_images):
 
     
     fig.tight_layout()
-    fig.savefig('test.png')
+    plt.show()
+    print('Save coco.png...')
+    fig.savefig('coco.png')
 
 
 # if __name__ == '__main__':
