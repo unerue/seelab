@@ -50,5 +50,5 @@ $ seelab check --size
 
 ![](img/fig-0001.png)
 
-[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=anuraghazra&layout=compact)](https://github.com/unerue/seelab)
+[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=unerue&layout=compact)](https://github.com/unerue/seelab)
 
