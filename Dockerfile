@@ -1,0 +1,5 @@
+ARG BASE_IMAGE=ubuntu:20.04
+ARG PYTHON_VERSION=3.8
+
+FROM ${BASE_IMAGE} as dev-base
+
