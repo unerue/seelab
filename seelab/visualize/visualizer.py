@@ -6,6 +6,7 @@ import argparse
 import math
 import tqdm
 from collections import defaultdict
+from typing import Any, Callable, TypeVar
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -35,9 +36,10 @@ class Visualizer:
         label = self.classes
         return NotImplementedError
         
+F = TypeVar('F', bound=Callable[..., Any])
 
 
-def color_cache(func):
+def color_cache(func: F) -> F:
     cached_colors = defaultdict()
     def wrapping_function(*args):
         k, v = func(*args)
