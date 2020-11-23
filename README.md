@@ -54,6 +54,9 @@ $ seelab check --size
 ```zsh
 $ seelab visualize image_dir/ annotations.json --num_images=6
 ```
+### Contributing
+
+You should be [PEP8](), [Type hints cheat sheet](https://mypy.readthedocs.io/en/stable/cheat_sheet_py3.html#functionst), function, input, and variables.
 
 ### vision-based construction
 
