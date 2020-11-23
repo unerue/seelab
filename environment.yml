@@ -2,6 +2,7 @@ name: seelab
 channels:
   - conda-forge
   - pytorch
+  - anaconda
 dependencies:
   - python=3.8
   - numpy
@@ -13,6 +14,10 @@ dependencies:
   - torchvision
   - cudatoolkit=10.2
   - scikit-learn
-  - pip:
-    - pycocotools
-    - opencv-python
+  - pycocotools
+  - opencv
+  - flake8
+  - tqdm
+  # - pip:
+    # - pycocotools
+    # - opencv-python
