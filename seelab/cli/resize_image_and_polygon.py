@@ -7,12 +7,14 @@ from collections import defaultdict
 from typing import Tuple, List, Dict
 import os
 import numpy as np
+from numba import jit
 
 
 folders = [
     '01-Kyungsu', '02-Youngwoon', '03-Validation', '06-YouTube', '07-Private', '08-CCTV', '09-License']
 save_json = False
 
+@jit(nopython=True)
 def resize_polygon(path: str, size: Tuple, resize: Tuple):
     global save_json
     image_path = os.path.basename(path)
@@ -53,6 +55,7 @@ def save_jpg(path, image):
     image.save(path, quality=80, optimize=True)
 
 
+@jit(nopython=True)
 # def resize_shapes(folders: List[str]):
 def check_size(base_height=720):
     for folder in folders:
