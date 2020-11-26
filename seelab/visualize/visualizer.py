@@ -20,6 +20,17 @@ from pycocotools import mask
 
 
 class Visualizer:
+    """Visualizer for MS COCO 
+
+    Arguments:
+        image_dir (str): 
+        info_path (str):
+        num_images (int):
+        annot_type (int):
+
+    Returns:
+        
+    """
     def __init__(self, image_dir: str, info_path: str, num_images: int, annot_type: str):
         self.image_dir = image_dir
         self.info_path = info_path
@@ -30,11 +41,28 @@ class Visualizer:
             self.annots = json.load(json_file)
 
         self.classes = {v['id']: v['name'] for v in self.annots['categories']}
+        self.image_sizes = {v['id']: v['size'] for v in self.annots['images']} # TODO: Check key-values
+        self.
+        
         raise NotImplementedError
 
     def get_label_and_color(self, alpha=1.0):
         label = self.classes
         return NotImplementedError
+
+    def init_figure(self):
+        return NotImplementedError
+
+    @classmethod
+    def get_label_and_color(cls, category_id, classes):
+        return NotImplementedError
+
+    def draw_ground_truth(self):
+        return NotImplementedError
+
+    def draw_predicted_labels(self):
+        return NotImplementedError
+
         
 F = TypeVar('F', bound=Callable[..., Any])
 
@@ -50,7 +78,8 @@ def color_cache(func: F) -> F:
 
 
 @color_cache
-def get_label_color_map(category_id, classes):
+def get_label_color_map(category_id: int, classes: int):
+    """"""
     label = classes[category_id]
     color = tuple(round(random.random(), 3) for _ in range(3))
     mask = color + (.5,)
@@ -114,7 +143,8 @@ def visualize_coco(image_dir, info_path, num_images):
     
     fig = plt.figure(dpi=200)
     dpi = fig.get_dpi()
-   
+    # TODO: all figure size (w, h) sum / dpi and each image size (w, h)
+    
     for i, (image_id, file_name) in enumerate(images.items()):
         image = Image.open(f'{image_dir}/{os.path.basename(file_name)}').convert('RGB')
         w, h = image.size
