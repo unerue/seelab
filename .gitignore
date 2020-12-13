@@ -1,0 +1,25 @@
+.vscode/
+__pycache__/
+.ipynb_checkpoints/
+
+build/
+dist/
+seelab.egg-info/
+
+seelab/check_size.py
+seelab/file_rename.py
+seelab/get_boxes.py
+seelab/labelme2voc.py
+seelab/labelme2coco.py
+seelab/merge_coco_v2.py
+seelab/arirang_to_coco.py
+seelab/extract_files.py
+seelab/geojson2coco.py
+seelab/extractor.py
+# seelab/resize_image_and_polygon.py
+# seelab/visualize/
+notebooks/
+# .gitignore
+images/
+
+*.json
