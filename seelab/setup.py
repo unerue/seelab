@@ -11,6 +11,7 @@ def cythonize_extensions(top_path, config):
 def configuration(parent_package='', top_path=None):
     config = Configuration('seelab', parent_package, top_path)
     config.add_subpackage('visualize')
+    config.add_subpackage('misc')
     # config.add_subpackage('main')
     cythonize_extensions(top_path, config)
 

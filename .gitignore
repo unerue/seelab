@@ -5,7 +5,6 @@ __pycache__/
 build/
 dist/
 seelab.egg-info/
-
 seelab/check_size.py
 seelab/file_rename.py
 seelab/get_boxes.py
@@ -18,7 +17,13 @@ seelab/geojson2coco.py
 seelab/extractor.py
 # seelab/resize_image_and_polygon.py
 # seelab/visualize/
-notebooks/
+
+snippet/
+
+
+notebooks/inputs/
+notebooks/outputs/
+notebooks/tools
 # .gitignore
 images/
 

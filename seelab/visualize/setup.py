@@ -6,16 +6,16 @@ from numpy.distutils.misc_util import Configuration
 def configuration(parent_package='', top_path=None):
     config = Configuration('visualize', parent_package, top_path)
 
-    libraries = []
-    if os.name == 'posix':
-        libraries.append('m')
+    # libraries = []
+    # if os.name == 'posix':
+    #     libraries.append('m')
 
     config.add_extension(
         '_cython_utils',
         sources=['_cython_utils.pyx'],
         include_dirs=[np.get_include()],
-        language='c++',
-        libraries=libraries)
+        language='c++',)
+        # libraries=libraries)
 
     return config
 
@@ -23,4 +23,4 @@ def configuration(parent_package='', top_path=None):
 if __name__ == '__main__':
     from numpy.distutils.core import setup
 
-    setup(**configuration(top_path='').todict())
+    setup(**configuration().todict())
